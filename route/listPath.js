@@ -1,6 +1,6 @@
 import { Router } from "express";
 import express from "express";
-import { getLists, createList } from "./controller/listController.js";
+import { getLists, createList } from "../controller/listController.js";
 const router = Router();
 
 
