@@ -1,4 +1,4 @@
-import {getDb} from "../../database/connect.js";
+import {getDb} from "./database/connect.js";
 
 export async function getLists(req, res) {
     const db = await getDb();
