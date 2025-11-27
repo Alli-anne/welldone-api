@@ -1,4 +1,4 @@
-javascriptimport express from "express";
+import express from "express";
 import todo from "./route/listPath.js";
 
 const app = express();
