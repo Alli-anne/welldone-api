@@ -5,7 +5,7 @@ const router = Router();
 
 
 router.get("/lists", getLists);
-router.post("/lists", createList);
+router.post("/add", createList);
 
 
 
