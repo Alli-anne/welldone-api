@@ -14,3 +14,10 @@ export async function createList(req, res) {
     res.json(list);
     console.log(list);
 }
+
+export async function getListByDate(req, res) {
+    const db = await getDb();
+    const lists = await db.collection('todo').find({date: req.params.date}).toArray();
+    res.json(lists);
+    console.log(lists);
+}
