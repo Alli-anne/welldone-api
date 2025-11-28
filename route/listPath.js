@@ -6,7 +6,7 @@ const router = Router();
 
 router.get("/lists", getLists);
 router.post("/add", createList);
-router.get("/lists/${date}", getListByDate);
+router.get("/lists/date/:date", getListByDate);
 
 
 export default router;
