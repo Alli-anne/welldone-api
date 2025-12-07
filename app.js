@@ -6,6 +6,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 
 import todo from "./route/listPath.js";
+import user from "./route/user.js";
 import { initDb, getDb } from "./database/connect.js";
 
 
@@ -30,6 +31,7 @@ app.use(session({
 }));
 
 app.use("/", todo);
+app.use("/", user);
 
 app.get("/test-db", async (req, res) => {
   try {
