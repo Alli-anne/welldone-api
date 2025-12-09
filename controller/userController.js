@@ -1,38 +1,89 @@
-import {getDb} from "../database/connect.js";
+import { getDb } from "../database/connect.js";
+import { ObjectId } from "mongodb";
 
-
+// --------------------------------------
+// Get ONE user by ID
+// --------------------------------------
 export async function getUser(req, res) {
-    const db = await getDb();
-    const user = await db.collection('user').findOne({_id: req.params.id});
-    res.json(user);
-    console.log(user);
+    try {
+        const db = await getDb();
+        const user = await db.collection("user").findOne({
+            _id: new ObjectId(req.params.id),
+        });
+
+        res.json(user);
+        console.log("Fetched user:", user);
+    } catch (err) {
+        console.error("Error fetching user:", err);
+        res.status(500).json({ error: "Failed to fetch user" });
+    }
 }
 
+// --------------------------------------
+// Get ALL users
+// --------------------------------------
 export async function getAllUsers(req, res) {
-    const db = await getDb();
-    const users = await db.collection('user').find().toArray();
-    res.json(users);
-    console.log(users);
+    try {
+        const db = await getDb();
+        const users = await db.collection("user").find().toArray();
+
+        res.json(users);
+        console.log("Fetched all users:", users);
+    } catch (err) {
+        console.error("Error fetching all users:", err);
+        res.status(500).json({ error: "Failed to fetch users" });
+    }
 }
 
+// --------------------------------------
+// Create a new user
+// --------------------------------------
 export async function createUser(req, res) {
-    const db = await getDb();
-    const user = await db.collection('user').insertOne(req.body);
-    res.json(user);
-    console.log(user);
+    try {
+        const db = await getDb();
+        const result = await db.collection("user").insertOne(req.body);
+
+        res.json(result);
+        console.log("User created:", result);
+    } catch (err) {
+        console.error("Error creating user:", err);
+        res.status(500).json({ error: "Failed to create user" });
+    }
 }
 
+// --------------------------------------
+// Update user by ID
+// --------------------------------------
 export async function updateUser(req, res) {
-    const db = await getDb();
-    const user = await db.collection('user').updateOne({_id: req.params.id}, {$set: req.body});
-    res.json(user);
-    console.log(user);
+    try {
+        const db = await getDb();
+        const result = await db.collection("user").updateOne(
+            { _id: new ObjectId(req.params.id) },
+            { $set: req.body }
+        );
+
+        res.json(result);
+        console.log("User updated:", result);
+    } catch (err) {
+        console.error("Error updating user:", err);
+        res.status(500).json({ error: "Failed to update user" });
+    }
 }
 
+// --------------------------------------
+// Delete user by ID
+// --------------------------------------
 export async function deleteUser(req, res) {
-    const db = await getDb();
-    const user = await db.collection('user').deleteOne({_id: req.params.id});
-    res.json(user);
-    console.log(user);
-}
+    try {
+        const db = await getDb();
+        const result = await db.collection("user").deleteOne({
+            _id: new ObjectId(req.params.id),
+        });
 
+        res.json(result);
+        console.log("User deleted:", result);
+    } catch (err) {
+        console.error("Error deleting user:", err);
+        res.status(500).json({ error: "Failed to delete user" });
+    }
+}
