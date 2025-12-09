@@ -1,5 +1,7 @@
 import { getDb } from "../database/connect.js";
 import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
+
 
 // --------------------------------------
 // Get ONE user by ID
@@ -41,7 +43,16 @@ export async function getAllUsers(req, res) {
 export async function createUser(req, res) {
     try {
         const db = await getDb();
-        const result = await db.collection("user").insertOne(req.body);
+        const { email, password, username } = req.body;
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const result = await db.collection("users").insertOne({
+            email,
+            username,
+            password: hashedPassword
+        });
 
         res.json(result);
         console.log("User created:", result);
