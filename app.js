@@ -31,9 +31,9 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use("/", todo);
-app.use("/", user);
-app.use("/", login);
+app.use("/auth", login);    // login routes
+app.use("/users", user);    // user routes
+app.use("/lists", todo);
 
 app.get("/test-db", async (req, res) => {
   try {

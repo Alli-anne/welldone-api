@@ -4,9 +4,9 @@ import { getLists, createList, getListByDate } from "../controller/listControlle
 const router = Router();
 
 
-router.get("/lists", getLists);
-router.post("/add", createList);
-router.get("/lists/date/:date", getListByDate);
+router.get("/", getLists);                // GET /lists/
+router.post("/", createList);             // POST /lists/
+router.get("/date/:date", getListByDate)
 
 
 export default router;

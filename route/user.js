@@ -5,11 +5,11 @@ import { getAllUsers, createUser, getUser, updateUser, deleteUser } from "../con
 const router = Router();
 
 
-router.get("/users", getAllUsers);
-router.post("/add", createUser);
-router.get("/users/:id", getUser);
-router.put("/users/:id", updateUser);
-router.delete("/users/:id", deleteUser);
+router.get("/", getAllUsers);       // GET /users/
+router.post("/", createUser);       // POST /users/
+router.get("/:id", getUser);        // GET /users/:id
+router.put("/:id", updateUser);     // PUT /users/:id
+router.delete("/:id", deleteUser);
 
 
 export default router;
