@@ -5,25 +5,19 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 
-import todo from "./route/listPath.js";
-import user from "./route/user.js";
-import login from "./route/login.js";
-import { initDb, getDb } from "./database/connect.js";
+import listRoutes from "./route/listPath.js";
+import userRoutes from "./route/user.js";
+import loginRoutes from "./route/login.js";
 
+import { initDb, getDb } from "./database/connect.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-console.log("APP.JS STARTED");
-
 app.use(express.static("public"));
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-  origin: '*',
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','Authorization']
-}));
+app.use(cors());
 
 app.use(session({
   secret: process.env.SESSION_SECRET || "default_secret",
@@ -31,31 +25,11 @@ app.use(session({
   saveUninitialized: true
 }));
 
-app.use("/", todo);
-app.use("/", user);
-app.use("/", login);
+// MOUNT ROUTES CORRECTLY
+app.use("/auth", loginRoutes);   // POST /auth
+app.use("/users", userRoutes);   // GET /users
+app.use("/lists", listRoutes);   // GET /lists
 
-app.get("/test-db", async (req, res) => {
-  try {
-    const db = await getDb();
-    const result = await db.command({ ping: 1 });
-
-    if (result.ok === 1) {
-      return res.send("Database Status: CONNECTED");
-    }
-
-    return res.status(500).send("Database Status: ERROR");
-  } catch (err) {
-    res.status(500).send("Database Status: NOT CONNECTED");
-  }
+initDb().then(() => {
+  app.listen(port, () => console.log(`Listening on port ${port}`));
 });
-
-initDb()
-  .then(() => {
-    app.listen(port, () => {
-      console.log(`Connected to DB and listening on port ${port}`);
-    });
-  })
-  .catch((err) => {
-    console.error("❌ Failed to connect to DB:", err);
-  });
