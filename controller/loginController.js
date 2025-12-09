@@ -6,7 +6,7 @@ export async function login(req, res) {
         const db = await getDb();
         const { email, password } = req.body;
 
-        const user = await db.collection('users').findOne({ email });
+        const user = await db.collection('user').findOne({ email });
 
         if (!user) {
             return res.status(401).json({ error: "Invalid email or password" });
