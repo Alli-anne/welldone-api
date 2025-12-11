@@ -5,7 +5,7 @@ const router = Router();
 
 
 router.get("/", getLists);                // GET /lists/
-router.post("/", createList);             // POST /lists/
+router.post("/add", createList);             // POST /lists/
 router.get("/date/:date", getListByDate)
 
 
