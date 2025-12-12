@@ -1,5 +1,4 @@
 import {getDb} from "../database/connect.js";
-import bcrypt from 'bcrypt';
 
 export async function login(req, res) {
     try {
@@ -12,9 +11,8 @@ export async function login(req, res) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
 
-        // Compare password hash
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
+        // Direct string comparison (passwords stored as plain text)
+        if (password !== user.password) {
             return res.status(401).json({ error: "Invalid email or password" });
         }
 
