@@ -27,7 +27,7 @@ export async function getUser(req, res) {
 export async function getAllUsers(req, res) {
     try {
         const db = await getDb();
-        const users = await db.collection("user").find().toArray();
+        const users = await db.collection("users").find().toArray();
 
         res.json(users);
         console.log("Fetched all users:", users);
@@ -68,7 +68,7 @@ export async function createUser(req, res) {
 export async function updateUser(req, res) {
     try {
         const db = await getDb();
-        const result = await db.collection("user").updateOne(
+        const result = await db.collection("users").updateOne(
             { _id: new ObjectId(req.params.id) },
             { $set: req.body }
         );
@@ -87,7 +87,7 @@ export async function updateUser(req, res) {
 export async function deleteUser(req, res) {
     try {
         const db = await getDb();
-        const result = await db.collection("user").deleteOne({
+        const result = await db.collection("users").deleteOne({
             _id: new ObjectId(req.params.id),
         });
 
